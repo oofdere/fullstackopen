@@ -5,6 +5,15 @@ const Statistics = ({ good, neutral, bad }) => {
   const avg = (good + bad * -1) / total;
   const pos = good / total;
 
+  if (total < 1) {
+    return (
+      <div>
+        <h2>statistics</h2>
+        <p>no feedback given</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2>statistics</h2>
