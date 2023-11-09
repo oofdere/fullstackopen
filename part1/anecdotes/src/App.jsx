@@ -15,7 +15,15 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Array(anecdotes.length));
 
-  console.log(votes);
+  const top = votes.reduce(
+    (acc, cur, idx) => {
+      if (cur > acc.votes) {
+        return { votes: cur, id: idx };
+      }
+      return acc;
+    },
+    { votes: -1, id: 0 }
+  );
 
   const newQuote = () => {
     let idx = Math.floor(Math.random() * anecdotes.length);
@@ -37,10 +45,13 @@ const App = () => {
 
   return (
     <div>
+      <h2>random anecdote</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected] | 0} votes</p>
       <button onClick={vote}>vote</button>
       <button onClick={newQuote}>random quote</button>
+      <h2>top anecdote</h2>
+      <p>{anecdotes[top.id]}</p>
     </div>
   );
 };
