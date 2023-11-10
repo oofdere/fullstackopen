@@ -2,22 +2,30 @@ import { useState } from "react";
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas", phone: "(555) 555-5555" },
+    { name: "Arto Hellas", number: "040-123456", id: 1 },
+    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
+    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
+    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [search, setSearch] = useState("");
+
+  const filteredPersons = persons.filter(({ name }) => {
+    return name.toLowerCase().includes(search.trim().toLowerCase());
+  });
 
   const handleAdd = (e) => {
     e.preventDefault();
     const name = newName.trim();
-    const phone = newNumber.trim();
+    const number = newNumber.trim();
 
     if (persons.some((e) => e.name === name)) {
       alert(`${name} is already added to the phonebook`);
       return;
     }
 
-    setPersons(persons.concat({ name, phone }));
+    setPersons(persons.concat({ name, number, id: persons.length + 1 }));
     setNewName("");
   };
 
@@ -48,10 +56,18 @@ const App = () => {
         </div>
       </form>
       <h2>numbers</h2>
+      <div>
+        search:
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          required
+        />
+      </div>
       <ul>
-        {persons.map((p) => (
+        {filteredPersons.map((p) => (
           <li key={p.name}>
-            {p.name}: {p.phone}
+            {p.name}: {p.number}
           </li>
         ))}
       </ul>
